@@ -23,7 +23,7 @@ export function neighbours(guide, id) {
 }
 
 export function activeView(hash) {
-  if (hash === '#map') return 'map';
+  if ((hash || '').startsWith('#map')) return 'map';
   if ((hash || '').startsWith('#node/')) return 'node';
   return 'route';
 }
@@ -36,5 +36,15 @@ export function imagePathFor(nodeId) {
 }
 
 export function currentNodeHref(hash, guide) {
-  return `#node/${nodeFromHash(hash, guide)}`;
+  const current = activeView(hash) === 'map' ? mapNodeFromHash(hash, guide) : nodeFromHash(hash, guide);
+  return `#node/${current}`;
+}
+
+export function mapNodeFromHash(hash, guide) {
+  const match = /^#map\/(V\d{2})$/.exec(hash || '');
+  return resolveNode(guide, match?.[1]).id;
+}
+
+export function mapNodeHref(nodeId) {
+  return `#map/${nodeId}`;
 }

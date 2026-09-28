@@ -1,5 +1,5 @@
-const VERSION = '1.0.0';
-const SHELL_CACHE = 'vatican-shell-1.0.0';
+const VERSION = '1.1.0';
+const SHELL_CACHE = 'vatican-shell-1.1.0';
 const SHELL = [
   './', './index.html', './credits.html', './manifest.webmanifest',
   './css/app.css', './js/app.js', './js/content.js', './js/player.js',

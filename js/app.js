@@ -1,6 +1,6 @@
-import { activeView, currentNodeHref, imagePathFor, loadGuide, neighbours, nodeFromHash, resolveNode } from './content.js';
+import { activeView, currentNodeHref, imagePathFor, loadGuide, mapNodeFromHash, mapNodeHref, neighbours, nodeFromHash, resolveNode } from './content.js';
 import { AudioController, mountPlayer } from './player.js';
-import { routeHint } from './route-map.js';
+import { buildMapState, mapStopStatus, mapViewZones, routeHint, transitionGuidance } from './route-map.js';
 import { mountHotspotDialog } from './hotspots.js';
 import { SISTINE_PREP_CARDS, SistineController } from './sistine.js';
 import { downloadOfflinePackage, registerServiceWorker } from './offline.js';
@@ -9,6 +9,7 @@ const app = document.querySelector('#app');
 let guide;
 let hotspots = {};
 let selectedLayer = 'standard';
+let mapMode = 'overview';
 const player = new AudioController();
 const sistine = new SistineController({player, navigate: (id) => { location.hash = `#node/${id}`; }});
 
@@ -95,18 +96,67 @@ function renderNode(id) {
 }
 
 function renderMap() {
-  app.innerHTML = `<section class="map-card"><p class="eyebrow">不依赖室内定位</p><h1>六段参观路线</h1><p>跟随楼层、展厅名和地标前进；馆内临时封路时以现场工作人员指引为准。</p></section>`;
+  const currentId = mapNodeFromHash(location.hash, guide);
+  const state = buildMapState(guide.nodes, currentId);
+  app.innerHTML = `<section class="map-card"><header class="map-heading"><p class="eyebrow">原创双层示意图 · 非精确比例</p><h1>全景导览地图</h1><p>跟随楼层、展厅名和地标前进；馆内临时封路时以现场工作人员指引为准。</p></header><div class="map-view-tabs" role="tablist" aria-label="地图视图"><button role="tab" data-map-mode="overview">全景</button><button role="tab" data-map-mode="current">当前区域</button><button role="tab" data-map-mode="next">下一站</button></div><div class="map-legend"><span><i class="legend-dot current"></i>当前位置</span><span><i class="legend-dot next"></i>下一站</span><span><i class="legend-line"></i>参观方向</span></div><div id="map-canvas"></div></section>`;
   const card = app.firstElementChild;
-  guide.chapters.forEach((chapter) => {
-    const band = document.createElement('section'); band.className = 'map-band';
-    band.innerHTML = `<strong>${chapter.floor} · ${chapter.name}</strong><div class="map-track">${chapter.nodes.map((id) => `<a class="map-stop" href="#node/${id}">${id}<br>${resolveNode(guide,id).title.split('：')[0]}</a>`).join('')}</div>`;
-    card.append(band);
-  });
+  const tabs = [...card.querySelectorAll('[data-map-mode]')];
+  const canvas = card.querySelector('#map-canvas');
+
+  const paint = () => {
+    tabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.mapMode === mapMode)));
+    const zones = mapViewZones(mapMode, state);
+    canvas.replaceChildren();
+
+    if (mapMode === 'next') {
+      const guidance = document.createElement('section');
+      guidance.className = 'map-guidance';
+      guidance.innerHTML = `<p class="eyebrow">下一段怎么走</p><div class="map-guidance-route"><strong>${state.current.id}</strong><span aria-hidden="true">→</span><strong>${state.next?.id || '结束'}</strong></div><p>${transitionGuidance(state.current.id, state.next?.id)}</p>`;
+      canvas.append(guidance);
+    }
+
+    const schematic = document.createElement('div');
+    schematic.className = `museum-schematic map-mode-${mapMode}`;
+    zones.forEach((zone, index) => {
+      const zoneCard = document.createElement('section');
+      const isCurrentZone = zone.id === state.currentZone.id;
+      const isNextZone = zone.id === state.nextZone?.id;
+      zoneCard.className = `map-zone${isCurrentZone ? ' current-zone' : ''}${isNextZone ? ' next-zone' : ''}`;
+      zoneCard.dataset.floor = zone.floor;
+      zoneCard.innerHTML = `<header><span class="floor-badge">${zone.floor}</span><div><h2>${zone.name}</h2><p>${zone.shortName} · ${zone.landmark}</p></div></header><ol class="map-nodes"></ol>`;
+      const list = zoneCard.querySelector('.map-nodes');
+      zone.nodes.forEach((id) => {
+        const node = resolveNode(guide, id);
+        const status = mapStopStatus(id, state);
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = `map-node map-node-${status}`;
+        link.href = `#node/${id}`;
+        if (status === 'current') link.setAttribute('aria-current', 'location');
+        link.setAttribute('aria-label', `${id} ${status === 'current' ? '当前位置 ' : status === 'next' ? '下一站 ' : ''}${node.title}`);
+        link.innerHTML = `<span class="map-node-number">${id.slice(1)}</span><span class="map-node-title">${node.title}</span>`;
+        item.append(link); list.append(item);
+      });
+      schematic.append(zoneCard);
+      if (index < zones.length - 1) {
+        const connector = document.createElement('div');
+        connector.className = 'map-connector';
+        connector.innerHTML = `<span aria-hidden="true">↓</span><small>${zone.floor === zones[index + 1].floor ? '继续前行' : `换层至 ${zones[index + 1].floor}`}</small>`;
+        schematic.append(connector);
+      }
+    });
+    canvas.append(schematic);
+  };
+
+  tabs.forEach((tab) => tab.addEventListener('click', () => { mapMode = tab.dataset.mapMode; paint(); }));
+  paint();
 }
 
 function render() {
   const view = activeView(location.hash);
+  const currentId = view === 'node' ? nodeFromHash(location.hash, guide) : view === 'map' ? mapNodeFromHash(location.hash, guide) : 'V01';
   document.querySelector('[data-route="node"]').href = currentNodeHref(location.hash, guide);
+  document.querySelector('[data-route="map"]').href = mapNodeHref(currentId);
   if (view !== 'node') player.pause();
   document.querySelectorAll('.bottom-nav a').forEach((link) => link.classList.toggle('active', link.dataset.route === view));
   if (view === 'node') renderNode(nodeFromHash(location.hash, guide));
