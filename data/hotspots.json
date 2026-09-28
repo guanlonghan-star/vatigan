@@ -1,0 +1,188 @@
+{
+  "schema": "Coordinates normalized 0..1 and visually calibrated against the bundled licensed images on 2026-09-28.",
+  "V06": [
+    {
+      "id": "father_torso",
+      "label": "父亲躯干扭转",
+      "x": 0.49,
+      "y": 0.43,
+      "note": "沿左腿、腹部、胸腔一路看到头部。"
+    },
+    {
+      "id": "father_face",
+      "label": "父亲面部",
+      "x": 0.53,
+      "y": 0.22,
+      "note": "感受强烈痛苦怎样被克制的形式包住。"
+    },
+    {
+      "id": "left_son",
+      "label": "左侧儿子",
+      "x": 0.25,
+      "y": 0.55,
+      "note": "比较他与父亲处于怎样不同的挣扎阶段。"
+    },
+    {
+      "id": "right_son",
+      "label": "右侧儿子",
+      "x": 0.76,
+      "y": 0.52,
+      "note": "比较体量，以及身体抵抗蛇缠绕的方式。"
+    },
+    {
+      "id": "serpents",
+      "label": "蛇的连接线",
+      "x": 0.53,
+      "y": 0.6,
+      "note": "蛇的曲线把三具身体连成一个整体。"
+    }
+  ],
+  "V07": [
+    {
+      "id": "chest",
+      "label": "胸腔",
+      "x": 0.42,
+      "y": 0.34,
+      "note": "先感受胸腔的重量与压缩感。"
+    },
+    {
+      "id": "abdomen",
+      "label": "腹部扭转",
+      "x": 0.43,
+      "y": 0.49,
+      "note": "比较胸腔与骨盆不同的朝向。"
+    },
+    {
+      "id": "pelvis",
+      "label": "骨盆",
+      "x": 0.46,
+      "y": 0.65,
+      "note": "观察骨盆轴线与肩线的偏转。"
+    },
+    {
+      "id": "signature",
+      "label": "Apollonios 签名区域",
+      "x": 0.49,
+      "y": 0.82,
+      "note": "看基座正面的希腊文签名区域。"
+    }
+  ],
+  "V12": [
+    {
+      "id": "architecture",
+      "label": "建筑与消失点",
+      "x": 0.5,
+      "y": 0.31,
+      "note": "先看整体建筑与中央消失点。"
+    },
+    {
+      "id": "plato_aristotle",
+      "label": "Plato / Aristotle",
+      "x": 0.5,
+      "y": 0.57,
+      "note": "比较柏拉图向上与亚里士多德向前的手势。"
+    },
+    {
+      "id": "pythagoras",
+      "label": "Pythagoras",
+      "x": 0.31,
+      "y": 0.72,
+      "note": "看数字、比例与书写动作。"
+    },
+    {
+      "id": "euclid",
+      "label": "Euclid",
+      "x": 0.69,
+      "y": 0.75,
+      "note": "看俯身演示几何的动作。"
+    },
+    {
+      "id": "diogenes",
+      "label": "Diogenes",
+      "x": 0.56,
+      "y": 0.72,
+      "note": "看他横卧台阶，怎样打破群体秩序。"
+    },
+    {
+      "id": "heraclitus",
+      "label": "Heraclitus / Michelangelo",
+      "x": 0.43,
+      "y": 0.75,
+      "note": "看前景中沉思而孤立的厚重人物。"
+    },
+    {
+      "id": "raphael",
+      "label": "Raphael 自画像",
+      "x": 0.93,
+      "y": 0.76,
+      "note": "在最右侧寻找戴黑色帽子的拉斐尔。"
+    }
+  ],
+  "V17": [
+    {
+      "id": "adam_body",
+      "label": "Adam 全身",
+      "x": 0.24,
+      "y": 0.58,
+      "note": "先看松弛却完整的身体与潜在力量。"
+    },
+    {
+      "id": "adam_hand",
+      "label": "Adam 手腕",
+      "x": 0.43,
+      "y": 0.47,
+      "note": "手腕为何显得被动、尚未完全获得力量。"
+    },
+    {
+      "id": "fingers",
+      "label": "两指临界点",
+      "x": 0.5,
+      "y": 0.51,
+      "note": "把目光停在两指之间的临界空白。"
+    },
+    {
+      "id": "god_group",
+      "label": "God 与人物群",
+      "x": 0.74,
+      "y": 0.45,
+      "note": "看上帝一侧密集人物群向前的运动。"
+    }
+  ],
+  "V20": [
+    {
+      "id": "christ",
+      "label": "Christ",
+      "x": 0.5,
+      "y": 0.33,
+      "note": "先找到推动全画旋转的中心。"
+    },
+    {
+      "id": "bartholomew",
+      "label": "St Bartholomew",
+      "x": 0.57,
+      "y": 0.43,
+      "note": "找他手中的皮；其中面孔传统上被视为自画像。"
+    },
+    {
+      "id": "rising",
+      "label": "复活与上升",
+      "x": 0.22,
+      "y": 0.73,
+      "note": "看复活、恢复并向上升起的身体。"
+    },
+    {
+      "id": "falling",
+      "label": "坠落与争夺",
+      "x": 0.75,
+      "y": 0.66,
+      "note": "看天使与恶魔怎样争夺坠落的身体。"
+    },
+    {
+      "id": "charon_minos",
+      "label": "Charon / Minos",
+      "x": 0.77,
+      "y": 0.91,
+      "note": "在下方寻找卡戎与米诺斯，留意但丁传统。"
+    }
+  ]
+}

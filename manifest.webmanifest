@@ -1,0 +1,16 @@
+{
+  "name": "梵蒂冈中文语音导览",
+  "short_name": "梵蒂冈导览",
+  "description": "21 站中文语音导览，支持离线使用。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5eddd",
+  "theme_color": "#641f2b",
+  "icons": [
+    {"src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "./assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+    {"src": "./assets/icons/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any"}
+  ]
+}

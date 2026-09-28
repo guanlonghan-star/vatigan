@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#641f2b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="梵蒂冈导览">
+  <title>梵蒂冈中文语音导览</title>
+  <link rel="stylesheet" href="./css/app.css">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="#route" aria-label="返回路线">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span><small>VATICAN COMPANION</small><strong>梵蒂冈中文语音导览</strong></span>
+    </a>
+    <button class="icon-button" id="settings-button" aria-label="显示设置">字</button>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <section class="loading-card" aria-live="polite">
+      <p class="eyebrow">正在准备导览</p>
+      <h1>把博物馆看成一条故事线</h1>
+      <p>正在载入 21 站讲解……</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="主要导航">
+    <a href="#route" data-route="route"><span aria-hidden="true">◎</span>路线</a>
+    <a href="#node/V01" data-route="node"><span aria-hidden="true">◉</span>当前讲解</a>
+    <a href="#map" data-route="map"><span aria-hidden="true">⌁</span>导览图</a>
+  </nav>
+
+  <dialog id="settings-dialog" class="sheet">
+    <form method="dialog">
+      <header><h2>显示设置</h2><button aria-label="关闭">×</button></header>
+      <fieldset>
+        <legend>字号</legend>
+        <div class="segmented">
+          <button type="button" data-font="normal">标准</button>
+          <button type="button" data-font="large">大</button>
+          <button type="button" data-font="xlarge">特大</button>
+        </div>
+      </fieldset>
+      <label class="switch-row">高对比 <input id="contrast-toggle" type="checkbox"></label>
+    </form>
+  </dialog>
+  <dialog id="hotspot-dialog" class="hotspot-dialog"></dialog>
+
+  <template id="node-template">
+    <article class="node-view">
+      <header class="node-heading">
+        <p class="node-meta"></p><h1></h1><p class="english-title"></p>
+      </header>
+      <div class="artwork-wrap"><img class="artwork" alt=""><div class="media-fallback" hidden>作品图片未载入，讲解仍可使用</div></div>
+      <section class="look-card"><p class="eyebrow">告诉我看哪里</p><ol></ol></section>
+      <section class="audio-card">
+        <div class="layer-tabs" role="tablist">
+          <button role="tab" data-layer="standard" aria-selected="true">标准讲解</button>
+          <button role="tab" data-layer="deep" aria-selected="false">深入补充</button>
+        </div>
+        <div id="player-slot"></div>
+        <details class="transcript"><summary>讲解文字</summary><div class="transcript-body"></div></details>
+      </section>
+      <nav class="node-pager"><a class="previous">上一站</a><a class="next">下一站</a></nav>
+    </article>
+  </template>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
