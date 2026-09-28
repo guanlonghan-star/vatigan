@@ -1,6 +1,6 @@
 import { activeView, currentNodeHref, imagePathFor, loadGuide, mapNodeFromHash, mapNodeHref, neighbours, nodeFromHash, resolveNode } from './content.js';
 import { AudioController, mountPlayer } from './player.js';
-import { buildMapState, mapStopStatus, mapViewZones, routeHint, transitionGuidance } from './route-map.js';
+import { MAP_STOPS, buildMapState, mapStopStatus, mapViewZones, routeHint, transitionGuidance } from './route-map.js';
 import { mountHotspotDialog } from './hotspots.js';
 import { SISTINE_PREP_CARDS, SistineController } from './sistine.js';
 import { downloadOfflinePackage, registerServiceWorker } from './offline.js';
@@ -107,6 +107,26 @@ function renderMap() {
     tabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.mapMode === mapMode)));
     const zones = mapViewZones(mapMode, state);
     canvas.replaceChildren();
+
+    if (mapMode === 'overview') {
+      const panorama = document.createElement('figure');
+      panorama.className = 'panorama-map';
+      panorama.innerHTML = '<img src="./assets/maps/vatican-route-map.svg" alt="梵蒂冈博物馆两层彩色路线示意图，标出21个语音讲解站点"><figcaption>点击彩色编号进入对应语音讲解</figcaption>';
+      MAP_STOPS.forEach((stop) => {
+        const status = mapStopStatus(stop.id, state);
+        const link = document.createElement('a');
+        link.className = `panorama-hotspot panorama-hotspot-${status}`;
+        link.href = `#node/${stop.id}`;
+        link.dataset.mapStop = stop.id;
+        link.style.left = `${stop.x}%`;
+        link.style.top = `${stop.y}%`;
+        link.setAttribute('aria-label', `${stop.id} ${stop.title}`);
+        if (status === 'current') link.setAttribute('aria-current', 'location');
+        panorama.append(link);
+      });
+      canvas.append(panorama);
+      return;
+    }
 
     if (mapMode === 'next') {
       const guidance = document.createElement('section');

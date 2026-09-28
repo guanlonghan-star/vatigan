@@ -1,10 +1,11 @@
-const VERSION = '1.1.0';
-const SHELL_CACHE = 'vatican-shell-1.1.0';
+const VERSION = '1.2.0';
+const SHELL_CACHE = 'vatican-shell-1.2.0';
 const SHELL = [
   './', './index.html', './credits.html', './manifest.webmanifest',
   './css/app.css', './js/app.js', './js/content.js', './js/player.js',
   './js/offline.js', './js/route-map.js', './js/hotspots.js', './js/sistine.js',
   './data/guide.json', './data/hotspots.json', './data/image-credits.json', './data/offline-manifest.json',
+  './assets/maps/vatican-route-map.svg',
   './assets/icons/icon-192.png', './assets/icons/icon-512.png', './assets/icons/apple-touch-icon.png'
 ];
 
