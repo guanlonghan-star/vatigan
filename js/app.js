@@ -18,7 +18,7 @@ function imageFor(node) {
 }
 
 function renderRoute() {
-  app.innerHTML = `<section class="hero"><p class="eyebrow">21 站 · 一条主线</p><h1>从古典身体，走到人的创造与终点</h1><p>按真实参观顺序整理。每一站只保留标准讲解和深入补充，进入西斯廷礼拜堂前请把手机收起。</p><div class="route-summary"><div><strong>21</strong><small>个停留点</small></div><div><strong>6</strong><small>个章节</small></div><div><strong>离线</strong><small>可完整使用</small></div></div><a class="start-button" href="#node/V01">从入口开始</a></section><section class="offline-card"><div><p class="eyebrow">出发前准备</p><h2>下载完整离线包</h2><p>建议在 Wi-Fi 下下载，完成后音频、图片和路线都可离线使用。</p></div><button id="offline-download" class="primary-button">开始下载</button><p id="offline-progress" aria-live="polite"></p><details><summary>iPhone 添加到主屏幕</summary><p>用 Safari 打开网址，点底部“共享”，再选“添加到主屏幕”。</p></details><p><a href="./credits.html">查看图片来源与授权</a></p></section>`;
+  app.innerHTML = `<section class="hero"><p class="eyebrow">21 站 · 一条主线</p><h1>从古典身体，走到人的创造与终点</h1><p>按真实参观顺序整理。每一站只保留标准讲解和深入补充，进入西斯廷礼拜堂前请把手机收起。</p><div class="route-summary"><div><strong>21</strong><small>个停留点</small></div><div><strong>7</strong><small>个章节</small></div><div><strong>离线</strong><small>可完整使用</small></div></div><a class="start-button" href="#node/V01">从入口开始</a></section><section class="offline-card"><div><p class="eyebrow">出发前准备</p><h2>下载完整离线包</h2><p>建议在 Wi-Fi 下下载，完成后音频、图片和路线都可离线使用。</p></div><button id="offline-download" class="primary-button">开始下载</button><p id="offline-progress" aria-live="polite"></p><details><summary>iPhone 添加到主屏幕</summary><p>用 Safari 打开网址，点底部“共享”，再选“添加到主屏幕”。</p></details><p><a href="./credits.html">查看图片来源与授权</a></p></section>`;
   app.querySelector('#offline-download').onclick = startOfflineDownload;
   for (const [index, chapter] of guide.chapters.entries()) {
     const details = document.createElement('details');
@@ -28,7 +28,7 @@ function renderRoute() {
     const list = details.querySelector('ol');
     chapter.nodes.map((id) => resolveNode(guide, id)).forEach((node) => {
       const item = document.createElement('li');
-      item.innerHTML = `<a class="route-card" href="#node/${node.id}"><span class="route-number">${node.id.slice(1)}</span><span><strong>${node.title}</strong><small>${node.area}</small></span><span aria-hidden="true">›</span></a>`;
+      item.innerHTML = `<a class="route-card" href="#node/${node.id}"><span class="route-number">${node.displayNumber}</span><span><strong>${node.title}</strong><small>${node.area}</small></span><span aria-hidden="true">›</span></a>`;
       list.append(item);
     });
     app.append(details);
@@ -47,7 +47,7 @@ async function startOfflineDownload() {
 function renderNode(id) {
   const node = resolveNode(guide, id);
   const fragment = document.querySelector('#node-template').content.cloneNode(true);
-  fragment.querySelector('.node-meta').textContent = `${node.id} · ${node.floor} · ${node.area}`;
+  fragment.querySelector('.node-meta').textContent = `第${node.displayNumber}站 · ${node.floor} · ${node.area}`;
   fragment.querySelector('h1').textContent = node.title;
   fragment.querySelector('.english-title').textContent = node.englishTitle;
   const image = fragment.querySelector('.artwork');
@@ -120,7 +120,8 @@ function renderMap() {
         link.dataset.mapStop = stop.id;
         link.style.left = `${stop.x}%`;
         link.style.top = `${stop.y}%`;
-        link.setAttribute('aria-label', `${stop.id} ${stop.title}`);
+        const node = resolveNode(guide, stop.id);
+        link.setAttribute('aria-label', `${node.displayNumber} ${stop.title}`);
         if (status === 'current') link.setAttribute('aria-current', 'location');
         panorama.append(link);
       });
@@ -131,7 +132,7 @@ function renderMap() {
     if (mapMode === 'next') {
       const guidance = document.createElement('section');
       guidance.className = 'map-guidance';
-      guidance.innerHTML = `<p class="eyebrow">下一段怎么走</p><div class="map-guidance-route"><strong>${state.current.id}</strong><span aria-hidden="true">→</span><strong>${state.next?.id || '结束'}</strong></div><p>${transitionGuidance(state.current.id, state.next?.id)}</p>`;
+      guidance.innerHTML = `<p class="eyebrow">下一段怎么走</p><div class="map-guidance-route"><strong>${state.current.displayNumber}</strong><span aria-hidden="true">→</span><strong>${state.next?.displayNumber || '结束'}</strong></div><p>${transitionGuidance(state.current.id, state.next?.id)}</p>`;
       canvas.append(guidance);
     }
 
@@ -153,8 +154,8 @@ function renderMap() {
         link.className = `map-node map-node-${status}`;
         link.href = `#node/${id}`;
         if (status === 'current') link.setAttribute('aria-current', 'location');
-        link.setAttribute('aria-label', `${id} ${status === 'current' ? '当前位置 ' : status === 'next' ? '下一站 ' : ''}${node.title}`);
-        link.innerHTML = `<span class="map-node-number">${id.slice(1)}</span><span class="map-node-title">${node.title}</span>`;
+        link.setAttribute('aria-label', `${node.displayNumber} ${status === 'current' ? '当前位置 ' : status === 'next' ? '下一站 ' : ''}${node.title}`);
+        link.innerHTML = `<span class="map-node-number">${node.displayNumber}</span><span class="map-node-title">${node.title}</span>`;
         item.append(link); list.append(item);
       });
       schematic.append(zoneCard);

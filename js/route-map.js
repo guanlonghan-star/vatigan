@@ -1,16 +1,17 @@
 export const MAP_ZONES = [
-  {id: 'pinacoteca', floor: '1F', name: '入口与绘画馆', shortName: 'Pinacoteca', landmark: '入口附近支线', nodes: ['V01','V02','V03','V04']},
+  {id: 'orientation', floor: '1F', name: '入口与路线准备', shortName: 'Entrance', landmark: '先确认 Museo Pio Clementino 方向', nodes: ['V01']},
   {id: 'classical', floor: '1F', name: '古典雕塑区', shortName: 'Pio Clementino', landmark: '八角庭院与缪斯厅', nodes: ['V05','V06','V07','V08']},
   {id: 'galleries', floor: '2F', name: '长廊', shortName: 'Galleries', landmark: '烛台、挂毯与地图长廊', nodes: ['V09','V10']},
   {id: 'raphael', floor: '2F', name: '拉斐尔画室', shortName: 'Raphael Rooms', landmark: 'Stanza della Segnatura', nodes: ['V11','V12','V13','V14']},
   {id: 'sistine', floor: '2F→1F', name: '西斯廷准备与礼拜堂', shortName: 'Sistine', landmark: '进入前完成讲解并收起手机', nodes: ['V15','V16','V17','V18','V19','V20']},
-  {id: 'exit', floor: '1F', name: '出口与尾声', shortName: 'Post-Sistine', landmark: '走出礼拜堂后重新打开导览', nodes: ['V21']},
+  {id: 'pinacoteca', floor: '1F', name: '离馆前绘画馆', shortName: 'Pinacoteca', landmark: '按 VIII → IX → XII 厅参观三幅重点作品', nodes: ['V03','V02','V04']},
+  {id: 'exit', floor: '1F', name: '出口与尾声', shortName: 'Exit', landmark: '完成 Pinacoteca 后前往出口', nodes: ['V21']},
 ];
 
 export const MAP_STOPS = [
   {id:'V01', title:'路线序章', x:74.03, y:47.27},
-  {id:'V02', title:'圣杰罗姆', x:35.42, y:43.64},
-  {id:'V03', title:'变容', x:26.66, y:43.64},
+  {id:'V03', title:'变容', x:35.42, y:43.64},
+  {id:'V02', title:'圣杰罗姆', x:26.66, y:43.64},
   {id:'V04', title:'基督下葬', x:17.89, y:43.64},
   {id:'V05', title:'观景殿阿波罗', x:57.92, y:27.00},
   {id:'V06', title:'拉奥孔', x:57.92, y:22.91},
@@ -32,11 +33,12 @@ export const MAP_STOPS = [
 ];
 
 const CROSS_ZONE_DIRECTIONS = {
-  'V04>V05': '返回入口主区域，按 Museo Pio Clementino 指示前往古典雕塑区。',
+  'V01>V05': '从入口主区域按 Museo Pio Clementino 指示前往古典雕塑区。',
   'V08>V09': '通过 Gallery of the Candelabra 后进入二层长廊，再前往挂毯陈列馆。',
   'V10>V11': '沿地图长廊继续，按 Stanze di Raffaello 指示进入拉斐尔画室。',
   'V14>V15': '离开拉斐尔画室后继续跟随 Sistine Chapel 指示，先在入口前完成准备讲解。',
-  'V20>V21': '走出西斯廷礼拜堂后再打开手机，进入尾声。',
+  'V20>V03': '走出西斯廷礼拜堂后再打开手机，沿普通博物馆出口方向经过 Musei della Biblioteca Apostolica Vaticana，再按 Pinacoteca 指示进入绘画馆；先到第 VIII 厅看《变容》。临时动线以工作人员指引为准。',
+  'V04>V21': '看完《基督下葬》后离开 Pinacoteca，前往出口并打开尾声。',
 };
 
 export function routeInstruction(nodes, currentId) {

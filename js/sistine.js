@@ -18,6 +18,6 @@ export class SistineController {
     }
   }
   exit() {
-    this.active = false; this.host?.querySelector?.('#sistine-screen')?.remove(); this.navigate?.('V21');
+    this.active = false; this.host?.querySelector?.('#sistine-screen')?.remove(); this.navigate?.('V03');
   }
 }
